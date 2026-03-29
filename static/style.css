@@ -1,0 +1,25 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+input {
+    margin: 5px;
+}
+
+table {
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 8px;
+}
+.btn-home {
+    transition: 0.3s;
+}
+
+.btn-home:hover {
+    transform: scale(1.05);
+}
