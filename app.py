@@ -40,10 +40,10 @@ def yukle():
             toplam = len(df)
             yuzde = (dogru / toplam) * 100
 
-            if yuzde < 50:
+            if yuzde < 60:
                 durum = "Öncelikli tekrar"
                 renk = "danger"
-            elif yuzde < 75:
+            elif yuzde < 70:
                 durum = "Orta seviye tekrar"
                 renk = "warning"
             else:
