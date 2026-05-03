@@ -43,7 +43,7 @@ def yukle():
             if yuzde < 60:
                 durum = "Öncelikli tekrar"
                 renk = "danger"
-            elif yuzde < 70:
+            elif 60 < yuzde < 75:
                 durum = "Orta seviye tekrar"
                 renk = "warning"
             else:
