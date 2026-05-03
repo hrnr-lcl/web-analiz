@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
+    <meta charset="UTF-8">
     <title>Analiz Sonuçları</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -15,33 +17,84 @@
     </div>
 </div>
 
-<div class="container">
-    <h2 class="section-title">Konu Bazlı Analiz Sonuçları</h2>
+<div class="page-header">
+    <h1>Konu Bazlı Analiz Sonuçları</h1>
+    <p>Sınıfın güçlü ve gelişime açık öğrenme alanları aşağıda gösterilmiştir.</p>
+</div>
 
-    <div class="info-box">
-        Bu tabloda, CSV dosyasındaki doğru cevap verileri kullanılarak her konu için sınıf başarı yüzdesi hesaplanmıştır.
-        Başarı oranına göre sistem telafi önceliğini otomatik olarak göstermektedir.
+<div class="container">
+
+    <div class="summary-cards">
+        <div class="summary-card">
+            <span>Genel Ortalama</span>
+            <h2>{{ genel_ortalama }}%</h2>
+        </div>
+
+        <div class="summary-card danger-bg">
+            <span>En Zayıf Konu</span>
+            <h2>{{ en_zayif_konu }}</h2>
+        </div>
+
+        <div class="summary-card success-bg">
+            <span>En Güçlü Konu</span>
+            <h2>{{ en_guclu_konu }}</h2>
+        </div>
     </div>
 
-    <table>
-        <tr>
-            <th>Konu / Kazanım</th>
-            <th>Başarı Yüzdesi</th>
-            <th>Telafi Durumu</th>
-        </tr>
+    <div class="chart-box">
+        <h3>Konu Bazlı Başarı Grafiği</h3>
+        <canvas id="basariGrafik"></canvas>
+    </div>
 
-        {% for konu, veri in sonuc.items() %}
-        <tr>
-            <td>{{ konu }}</td>
-            <td>{{ veri.yuzde }}%</td>
-            <td>{{ veri.durum }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="table-box">
+        <table>
+            <tr>
+                <th>Konu / Kazanım</th>
+                <th>Başarı Yüzdesi</th>
+                <th>Telafi Durumu</th>
+                <th>Sistem Yorumu</th>
+            </tr>
 
-    <br>
+            {% for konu, veri in sonuc.items() %}
+            <tr>
+                <td>{{ konu }}</td>
+                <td><b>{{ veri.yuzde }}%</b></td>
+                <td><span class="status {{ veri.renk }}">{{ veri.durum }}</span></td>
+                <td>{{ veri.yorum }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
     <a href="/" class="btn">Ana Sayfaya Dön</a>
+
 </div>
+
+<script>
+    const ctx = document.getElementById('basariGrafik');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ grafik_konular | tojson }},
+            datasets: [{
+                label: 'Başarı Yüzdesi',
+                data: {{ grafik_yuzdeler | tojson }},
+                borderWidth: 1,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>

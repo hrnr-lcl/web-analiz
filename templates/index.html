@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Sınıf Analiz Sistemi</title>
+    <meta charset="UTF-8">
+    <title>Kazanım Analiz Sistemi</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -12,52 +13,54 @@
         <a href="/">Ana Sayfa</a>
         <a href="/sorular">Soru Girişi</a>
         <a href="/yukle">CSV Yükle</a>
-        <a href="/analiz">Analiz</a>
     </div>
 </div>
 
-<div class="hero">
-    <div>
-        <h1>Web Tabanlı Kazanım Analiz Sistemi</h1>
+<section class="hero">
+    <div class="hero-text">
+        <span class="badge">Web Tabanlı Eğitim Destek Sistemi</span>
+        <h1>Konu Bazlı Sınav Analizi ile Eksik Öğrenmeleri Belirleyin</h1>
         <p>
-            Bu sistem, öğretmenlerin sınav sonuçlarını konu ve kazanım bazlı olarak analiz etmesini,
-            sınıfın eksik öğrenme alanlarını belirlemesini ve telafi sürecini planlamasını sağlar.
+            Öğretmenlerin sınav sonuçlarını konu/kazanım bazlı değerlendirmesini,
+            sınıf başarısını analiz etmesini ve telafi sürecini planlamasını sağlar.
         </p>
         <a href="/sorular" class="btn">Analize Başla</a>
     </div>
 
-    <div class="hero-card">
+    <div class="hero-panel">
         <h3>Sistem Akışı</h3>
-        <p>1. Soru sayısı girilir</p>
-        <p>2. Her sorunun konusu tanımlanır</p>
-        <p>3. CSV dosyası yüklenir</p>
-        <p>4. Konu bazlı analiz alınır</p>
+        <div class="step">1. Soru sayısını gir</div>
+        <div class="step">2. Her sorunun konusunu tanımla</div>
+        <div class="step">3. CSV dosyasını yükle</div>
+        <div class="step">4. Grafik ve analiz sonucunu incele</div>
     </div>
-</div>
+</section>
 
-<div class="container">
+<section class="container">
     <h2 class="section-title">Uygulama Modülleri</h2>
 
     <div class="cards">
         <div class="card">
+            <div class="icon">📝</div>
             <h3>Soru ve Konu Girişi</h3>
-            <p>Öğretmen sınavdaki her sorunun hangi konuya ait olduğunu sisteme tanımlar.</p>
-            <a href="/sorular" class="btn">Soru Gir</a>
+            <p>Sınavdaki her sorunun ait olduğu konu veya kazanım tanımlanır.</p>
+            <a href="/sorular" class="btn small">Soru Gir</a>
         </div>
 
         <div class="card">
+            <div class="icon">📁</div>
             <h3>CSV Veri Yükleme</h3>
-            <p>Optik formdan alınan doğru/yanlış verileri CSV formatında sisteme yüklenir.</p>
-            <a href="/yukle" class="btn">CSV Yükle</a>
+            <p>Öğrenci cevapları 1 ve 0 formatında sisteme yüklenir.</p>
+            <a href="/yukle" class="btn small">CSV Yükle</a>
         </div>
 
         <div class="card">
-            <h3>Analiz ve Telafi</h3>
-            <p>Sistem konu bazlı başarı oranlarını hesaplar ve tekrar önceliğini gösterir.</p>
-            <a href="/analiz" class="btn">Analizi Gör</a>
+            <div class="icon">📊</div>
+            <h3>Grafik Destekli Analiz</h3>
+            <p>Konu bazlı başarı oranları grafik ve tablo ile gösterilir.</p>
         </div>
     </div>
-</div>
+</section>
 
 <div class="footer">
     Eğitimde ölçme-değerlendirme süreçlerini destekleyen web tabanlı analiz aracı
