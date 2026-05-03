@@ -3,97 +3,70 @@ import pandas as pd
 
 app = Flask(__name__)
 
-soru_konular = {}
-ogrenci_cevaplari = []
-soru_sayisi = 0
+konular = []
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# SORULAR
+
 @app.route("/sorular", methods=["GET", "POST"])
 def sorular():
-    global soru_konular, soru_sayisi
-
     if request.method == "POST":
-        soru_sayisi = int(request.form.get("soru_sayisi"))
-        soru_konular = {}
+        soru_sayisi = int(request.form["soru_sayisi"])
+        return render_template("sorular.html", soru_sayisi=soru_sayisi)
 
-        for i in range(1, soru_sayisi + 1):
-            konu = request.form.get(f"s{i}")
-            soru_konular[i] = konu
+    return render_template("sorular.html", soru_sayisi=None)
 
-        return redirect(url_for("index"))
 
-    return render_template("sorular.html")
+@app.route("/konular_kaydet", methods=["POST"])
+def konular_kaydet():
+    global konular
+    konular = request.form.getlist("konu")
+    return redirect(url_for("yukle"))
 
-# CSV YÜKLE
-@app.route("/csv_cevap", methods=["GET", "POST"])
-def csv_cevap():
-    global ogrenci_cevaplari
 
+@app.route("/yukle", methods=["GET", "POST"])
+def yukle():
     if request.method == "POST":
         file = request.files["file"]
         df = pd.read_csv(file)
 
-        ogrenci_cevaplari = df.values.tolist()
+        sonuc = {}
 
-        # CSV kontrol
-        if len(ogrenci_cevaplari[0]) != soru_sayisi:
-            return "HATA: CSV soru sayısı ile sistemdeki soru sayısı uyuşmuyor!"
+        for i, konu in enumerate(konular):
+            dogru = df.iloc[:, i].sum()
+            toplam = len(df)
+            yuzde = (dogru / toplam) * 100
 
-        return redirect(url_for("index"))
+            if yuzde < 50:
+                durum = "Öncelikli tekrar"
+                renk = "danger"
+            elif yuzde < 75:
+                durum = "Orta seviye tekrar"
+                renk = "warning"
+            else:
+                durum = "İyi"
+                renk = "success"
 
-    return render_template("csv_cevap.html")
+            sonuc[konu] = {
+                "yuzde": round(yuzde, 2),
+                "durum": durum,
+                "renk": renk
+            }
 
-# ANALİZ
-@app.route("/analiz")
-def analiz():
-    if not soru_konular or not ogrenci_cevaplari:
-        return redirect(url_for("index"))
+        en_zayif_konu = min(sonuc, key=lambda konu: sonuc[konu]["yuzde"])
+        en_zayif_veri = sonuc[en_zayif_konu]
 
-    konu_skor = {}
+        return render_template(
+            "analiz.html",
+            sonuc=sonuc,
+            en_zayif_konu=en_zayif_konu,
+            en_zayif_veri=en_zayif_veri
+        )
 
-    for k in set(soru_konular.values()):
-        konu_skor[k] = {"dogru": 0, "toplam": 0}
-
-    for cevap in ogrenci_cevaplari:
-        for i, c in enumerate(cevap, start=1):
-            if i > soru_sayisi:
-                break
-
-            konu = soru_konular[i]
-            konu_skor[konu]["toplam"] += 1
-
-            if int(c) == 1:
-                konu_skor[konu]["dogru"] += 1
-
-    analiz_sonuc = []
-
-    for k, v in konu_skor.items():
-        oran = (v["dogru"] / v["toplam"]) * 100
-
-        if oran < 60:
-            telafi = "Konu anlatımı + temel soru çözümü"
-            oncelik = 1
-        elif 60 <= oran < 75:
-            telafi = "Orta seviye soru çözümü"
-            oncelik = 2
-        else:
-            telafi = "Pekiştirme / zor sorular"
-            oncelik = 3
-
-        analiz_sonuc.append({
-            "konu": k,
-            "oran": round(oran, 2),
-            "telafi": telafi,
-            "oncelik": oncelik
-        })
-
-    analiz_sonuc.sort(key=lambda x: x["oncelik"])
-
-    return render_template("analiz.html", analiz=analiz_sonuc)
+    return render_template("yukle.html")
 
 
 if __name__ == "__main__":

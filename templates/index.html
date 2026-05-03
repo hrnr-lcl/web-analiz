@@ -2,40 +2,65 @@
 <html>
 <head>
     <title>Sınıf Analiz Sistemi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+<body>
 
-<body class="bg-light">
+<div class="navbar">
+    <div class="logo">Kazanım Analiz</div>
+    <div class="nav-links">
+        <a href="/">Ana Sayfa</a>
+        <a href="/sorular">Soru Girişi</a>
+        <a href="/yukle">CSV Yükle</a>
+        <a href="/analiz">Analiz</a>
+    </div>
+</div>
 
-<div class="container mt-5 text-center">
-
-    <h1 class="mb-4">📊 Sınıf Analiz Sistemi</h1>
-
-    <div class="row">
-
-        <div class="col-md-4">
-            <div class="card shadow p-4">
-                <h4>📝 Sorular</h4>
-                <a href="/sorular" class="btn btn-primary mt-2">Gir</a>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow p-4">
-                <h4>📂 CSV Yükle</h4>
-                <a href="/csv_cevap" class="btn btn-success mt-2">Yükle</a>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow p-4">
-                <h4>📈 Analiz</h4>
-                <a href="/analiz" class="btn btn-danger mt-2">Gör</a>
-            </div>
-        </div>
-
+<div class="hero">
+    <div>
+        <h1>Web Tabanlı Kazanım Analiz Sistemi</h1>
+        <p>
+            Bu sistem, öğretmenlerin sınav sonuçlarını konu ve kazanım bazlı olarak analiz etmesini,
+            sınıfın eksik öğrenme alanlarını belirlemesini ve telafi sürecini planlamasını sağlar.
+        </p>
+        <a href="/sorular" class="btn">Analize Başla</a>
     </div>
 
+    <div class="hero-card">
+        <h3>Sistem Akışı</h3>
+        <p>1. Soru sayısı girilir</p>
+        <p>2. Her sorunun konusu tanımlanır</p>
+        <p>3. CSV dosyası yüklenir</p>
+        <p>4. Konu bazlı analiz alınır</p>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="section-title">Uygulama Modülleri</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Soru ve Konu Girişi</h3>
+            <p>Öğretmen sınavdaki her sorunun hangi konuya ait olduğunu sisteme tanımlar.</p>
+            <a href="/sorular" class="btn">Soru Gir</a>
+        </div>
+
+        <div class="card">
+            <h3>CSV Veri Yükleme</h3>
+            <p>Optik formdan alınan doğru/yanlış verileri CSV formatında sisteme yüklenir.</p>
+            <a href="/yukle" class="btn">CSV Yükle</a>
+        </div>
+
+        <div class="card">
+            <h3>Analiz ve Telafi</h3>
+            <p>Sistem konu bazlı başarı oranlarını hesaplar ve tekrar önceliğini gösterir.</p>
+            <a href="/analiz" class="btn">Analizi Gör</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    Eğitimde ölçme-değerlendirme süreçlerini destekleyen web tabanlı analiz aracı
 </div>
 
 </body>

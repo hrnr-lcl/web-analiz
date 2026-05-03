@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Yükle</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">Kazanım Analiz</div>
+    <div class="nav-links">
+        <a href="/">Ana Sayfa</a>
+        <a href="/sorular">Soru Girişi</a>
+        <a href="/analiz">Analiz</a>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="section-title">CSV ile Öğrenci Cevaplarını Yükle</h2>
+
+    <div class="info-box">
+        CSV dosyasında her satır bir öğrenciyi, her sütun ise bir soruyu temsil eder.
+        Değerler 1 ve 0 şeklinde girilmelidir.
+        <br><br>
+        <b>1 = Doğru cevap</b><br>
+        <b>0 = Yanlış cevap</b>
+        <br><br>
+        Örnek format:<br>
+        S1,S2,S3<br>
+        1,0,1<br>
+        0,1,1
+    </div>
+
+    <div class="form-box">
+        <form method="post" enctype="multipart/form-data">
+            <label>CSV Dosyası Seçiniz</label>
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit" class="btn">Analiz Et</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,71 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Analiz</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>Analiz Sonuçları</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+<body>
 
-<body class="bg-light">
-
-<div class="container mt-5">
-
-    <h1 class="text-center mb-4">📊 Analiz</h1>
-
-    <div class="card p-4 shadow mb-4">
-        <table class="table text-center">
-
-            <tr>
-                <th>Konu</th>
-                <th>Başarı</th>
-                <th>Öneri</th>
-            </tr>
-
-            {% for a in analiz %}
-            <tr class="
-                {% if a.oran < 50 %} table-danger
-                {% elif a.oran < 75 %} table-warning
-                {% else %} table-success
-                {% endif %}
-            ">
-                <td>{{ a.konu }}</td>
-                <td>{{ a.oran }}%</td>
-                <td>{{ a.telafi }}</td>
-            </tr>
-            {% endfor %}
-
-        </table>
+<div class="navbar">
+    <div class="logo">Kazanım Analiz</div>
+    <div class="nav-links">
+        <a href="/">Ana Sayfa</a>
+        <a href="/sorular">Soru Girişi</a>
+        <a href="/yukle">CSV Yükle</a>
     </div>
-
-    <div class="card p-4 shadow mb-4">
-        <canvas id="chart"></canvas>
-    </div>
-
-    <div class="text-center">
-        <form action="/">
-            <button class="btn btn-primary btn-lg">Ana Sayfa</button>
-        </form>
-    </div>
-
 </div>
 
-<script>
-const labels = {{ analiz | map(attribute='konu') | list | tojson }};
-const data = {{ analiz | map(attribute='oran') | list | tojson }};
+<div class="container">
+    <h2 class="section-title">Konu Bazlı Analiz Sonuçları</h2>
 
-new Chart(document.getElementById("chart"), {
-    type: "bar",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Başarı (%)",
-            data: data
-        }]
-    }
-});
-</script>
+    <div class="info-box">
+        Bu tabloda, CSV dosyasındaki doğru cevap verileri kullanılarak her konu için sınıf başarı yüzdesi hesaplanmıştır.
+        Başarı oranına göre sistem telafi önceliğini otomatik olarak göstermektedir.
+    </div>
+
+    <table>
+        <tr>
+            <th>Konu / Kazanım</th>
+            <th>Başarı Yüzdesi</th>
+            <th>Telafi Durumu</th>
+        </tr>
+
+        {% for konu, veri in sonuc.items() %}
+        <tr>
+            <td>{{ konu }}</td>
+            <td>{{ veri.yuzde }}%</td>
+            <td>{{ veri.durum }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/" class="btn">Ana Sayfaya Dön</a>
+</div>
 
 </body>
 </html>
